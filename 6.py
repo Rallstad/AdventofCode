@@ -37,9 +37,7 @@ def getLastLine():
         for line in infile:
             
             secondLastLine = lastLine
-            #print("secondLastLine: " + secondLastLine)
             lastLine = line
-            #print("lastLine: " + lastLine)
     return lastLine, secondLastLine
 
 def getTotalDistinct(lines):
@@ -48,14 +46,14 @@ def getTotalDistinct(lines):
 
     for line in lines:
         if line:
-            print(line)
             group.append(line)
-            #print(group)
         else:
-            #print(group)
             groupValue = calcGroupValue(group)
             totalDistinct = totalDistinct + groupValue
             group = []
+    groupValue = calcGroupValue(group)
+    totalDistinct = totalDistinct + groupValue
+    group = []
     return totalDistinct
 
 def getTotalCommon(lines):
@@ -69,6 +67,9 @@ def getTotalCommon(lines):
             common = findCommonGroupAnswers(group)
             totalCommon = totalCommon + common
             group = []
+    common = findCommonGroupAnswers(group)
+    totalCommon = totalCommon + common
+    group = []
     return totalCommon
 
 

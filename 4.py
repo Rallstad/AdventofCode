@@ -23,6 +23,14 @@ def getPassportsWithCorrectElements(lines):
             count = 0
             passport = []
 
+    for elem in passport:
+        if elem.split(':')[0] in values:
+            count = count + 1
+    if count >= len(values):
+        validPassports = validPassports + 1
+    count = 0
+    passport = []
+
     return validPassports
 
 
