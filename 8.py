@@ -5,7 +5,7 @@ ops = { "+": operator.add, "-": operator.sub } # legger til string operators som
 
 lines = readFile('inputs/inputTask8.txt')
 
-def accumulateAcc():
+def accumulateAcc(lines):
 	acc = 0
 	jmp = 1
 	been = []
@@ -13,7 +13,6 @@ def accumulateAcc():
 	repeated = False
 
 	while not repeated:
-		print(index)
 		if index in been:
 			repeated = 1
 			break
@@ -23,54 +22,50 @@ def accumulateAcc():
 		if "jmp" in lines[index]:
 			if "+" in lines[index]:
 				jmp = int(lines[index].split("+",1)[1])
-				
 				index = index + jmp
+
 			elif "-" in lines[index]:
 				jmp = int(lines[index].split("-",1)[1])
-				#print(j)	
-				jmp = (-jmp)
-				index = index + jmp	
-
+				index = index - jmp	
 
 		elif "acc" in lines[index]:
-			#print(line)
 			if "+" in lines[index]:
 				num = int(lines[index].split("+",1)[1])
-				#print(num)		
 				acc = ops["+"](acc,num)
-				#print(acc)
 			elif "-" in lines[index]:
 				num = int(lines[index].split("-",1)[1])
-				#print(num)		
 				acc = ops["-"](acc,num)
 			index = index + 1
-				#print(acc)
-						#elif "-" in line:
-				#print(ops["+"](1,1))
-		elif "nop" in lines[index]:
 
+		elif "nop" in lines[index]:
 			index = index + 1
-	print(acc)
+
 	return acc
 
 
 
 def terminateCorrectly(lines):
-	
+	count = -1
 	for line in lines:
+		if count != len(lines):
+			count = count + 1
+		else:
+			print("no valid results..")
+			return 0
+
 		acc = 0
-		jmp = 1
+		jmp = 0
 		been = []
 		index = 0
 		repeated = False
+		
+		#change jmp and nop line for line in lines 
+		if "jmp" in lines[count]:
+			lines[count] = lines[count].replace("jmp", "nop")
+		elif "nop" in lines[count]:
+			lines[count] = lines[count].replace("nop", "jmp")
 
-		if "jmp" in line:
-			line = line.replace("jmp", "nop")
-		elif "nop" in line:
-			line = line.replace("nop", "jmp")
-
-		while not repeated and -1 < index < len(lines):
-			print(index)
+		while not repeated:
 			if index in been:
 				repeated = 1
 				break
@@ -79,13 +74,8 @@ def terminateCorrectly(lines):
 
 			if "jmp" in lines[index]:
 				if "+" in lines[index]:
-
 					jmp = int(lines[index].split("+",1)[1])
-					if index >= len(lines):
-						print(acc)
-						return acc
-					else:
-						index = index + jmp
+					index = index + jmp
 
 				elif "-" in lines[index]:
 					jmp = int(lines[index].split("-",1)[1])
@@ -96,20 +86,27 @@ def terminateCorrectly(lines):
 				if "+" in lines[index]:
 					num = int(lines[index].split("+",1)[1])
 					acc = ops["+"](acc,num)
+
 				elif "-" in lines[index]:
 					num = int(lines[index].split("-",1)[1])
 					acc = ops["-"](acc,num)
+
 				index = index + 1
+
 			elif "nop" in lines[index]:
 				index = index + 1
 
-		if "jmp" in line:
-			line = line.replace("jmp", "nop")
-		elif "nop" in line:
-			line = line.replace("nop", "jmp")
+			if index == len(lines) -1:
+				print("done")
+				return acc
+		
+		#change back the jmp and nop lines
+		if "jmp" in lines[count]:
+			lines[count] = lines[count].replace("jmp", "nop")
+		elif "nop" in lines[count]:
+			lines[count] = lines[count].replace("nop", "jmp")
 
-
-terminateCorrectly(lines)
-
+#print(terminateCorrectly(lines))
+print(accumulateAcc(lines))
 
 
