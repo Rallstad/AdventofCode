@@ -3,78 +3,62 @@ import re
 
 lines = readFile('inputs/inputTask7.txt')
 
-def findEmptyBags(line):
-	emptyBags = []
-	if "contain no other bags" in line:
-		color = re.sub(' bags contain no other bags\.$', '', line)
-		emptyBags.append(color)
-	return emptyBags
 
+def DigDeep(line, lines):
+	splitLine = SplitLine(line)
+	print("splitline")
+	print(splitLine)
 
-
-def findTopLevelBags(line):
-	topLevel = []
-	color = ' '.join(line.split()[:2])
-	topLevel.append(color)
-	return topLevel
-
-
-def splitLine(line):
-
- 
-	colorList = line.split(',')
-	print(colorList)
-	for elem in colorList:
-		
-
-	
-	#print(colorList)
-
+	#if "shiny gold" in splitLine[0]:
+	#	return True
 	
 
-	return line
+	for bag in splitLine[1:]:
+		if "o other" in splitLine[1]:
+			continue
 
-def calcNumShinyGoldBags(lines):
-	top = []
-	empty = []
-	splitList = []
-	 
+		if "shiny gold" in bag:
+			return True
+
+		child = SearchChild(bag, lines)
+		shiny = DigDeep(child, lines)
+		if shiny == True:
+			return True
+
+
+
+
+def SearchChild(bag, lines):
+	bagColor = re.findall('[a-z]+', bag)
+	bagColor = ' '.join(bagColor)
 	for line in lines:
-		top.append(findTopLevelBags(line))
-		empty.append(findEmptyBags(line))
+		if line.startswith(bagColor):
+			return line
+	print("something is wrong")
+	return 0
 
+
+def SplitLine(line):
+	sl = line.replace('contain',',')
+	sl = sl.split(',')
+	sl[0] = sl[0].replace(' bags ', '')
+	for elem in range(1,len(sl)):
+		remove = ''.join(sl[elem].split(' ')[1-2])
+		sl[elem] = sl[elem][2:]
+		sl[elem] = sl[elem].replace(remove,'')
+		sl[elem] = sl[elem].strip()
+	return sl
+
+
+def BagWithGoldBags(lines):
+	shinyCount = 0
+			
 	for line in lines:
-		splitList.append(splitLine(line))
+		shiny= DigDeep(line, lines)
+		if shiny == True:
+			shinyCount += 1
+	return shinyCount
 
-	
-	#print(splitList)
-		
-#		for split in splitList:
-#			if split in empty:
-#				splitlist.remove(empty)
-
-
-#	empty = findEmptyBags(lines)
-	
-
-#	for e in empty:
-#		if e in top:
-#			top.remove(e)
-
-	
-#	split = splitLines(top, lines)
-#	print(split)
-	num = 0
-
-
-	#for line in lines:
-		#if empty in line:
-
-			#print(line)
-
-	return num
-
-#print(calcNumShinyGoldBags(lines))
-calcNumShinyGoldBags(lines)
-
+#print(bagWithGoldBags(lines))
+BagWithGoldBags(lines)
 
