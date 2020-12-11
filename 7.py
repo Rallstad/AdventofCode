@@ -6,12 +6,6 @@ lines = readFile('inputs/inputTask7.txt')
 
 def DigDeep(line, lines):
 	splitLine = SplitLine(line)
-	print("splitline")
-	print(splitLine)
-
-	#if "shiny gold" in splitLine[0]:
-	#	return True
-	
 
 	for bag in splitLine[1:]:
 		if "o other" in splitLine[1]:
@@ -24,8 +18,6 @@ def DigDeep(line, lines):
 		shiny = DigDeep(child, lines)
 		if shiny == True:
 			return True
-
-
 
 
 def SearchChild(bag, lines):
@@ -59,6 +51,4 @@ def BagWithGoldBags(lines):
 			shinyCount += 1
 	return shinyCount
 
-#print(bagWithGoldBags(lines))
-BagWithGoldBags(lines)
-
+print(BagWithGoldBags(lines))
