@@ -100,7 +100,7 @@ def mainA(lines):
             return occupied
 
         
-mainA(lines)
+#mainA(lines)
 
 
 #part two
@@ -254,7 +254,7 @@ def ChangeSeating(splittedLines):
     return changedSeating, splittedLines
 
 
-def main(lines):
+def mainB(lines):
     paddedLines = PadLines(lines)
     splittedLines = convert2Array(paddedLines)
     while True:
@@ -267,4 +267,4 @@ def main(lines):
             return occupied
 
         
-main(lines)
+mainB(lines)
